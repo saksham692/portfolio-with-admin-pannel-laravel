@@ -23,14 +23,14 @@ This portfolio website is designed and developed using Laravel, a PHP framework 
 1. In your root folder, clone the project file using the command
 
 ```bash
-  https://github.com/saksham692/portfolio-with-admin-pannel-laravel.git
+  git clone https://github.com/saksham692/portfolio-with-admin-pannel-laravel.git
 
 ```
 
 2. Open the terminal (bash/cmd). Then go to the project folder using the command
 
 ```bash
-  cd Portfolio-Web-Laravel
+  cd portfolio-with-admin-pannel-laravel
 
 ```
 
