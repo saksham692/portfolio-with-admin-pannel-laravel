@@ -14,8 +14,13 @@
                     <p>{{ $footerInfo->info }}</p>
                     <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
                         @foreach($footerIcons as $footerIcon)
-                            <li class="ftco-animate"><a href="{{ $footerIcon->url }}"><span><i
-                                            class="{{ $footerIcon->icon }}"></i></span></a></li>
+                            <li class="ftco-animate">
+                                <a href="{{ $footerIcon->url }}">
+                                    <span>
+                                        <i class="{{ $footerIcon->icon }}"></i>
+                                    </span>
+                                </a>
+                            </li>
                         @endforeach
                     </ul>
                 </div>

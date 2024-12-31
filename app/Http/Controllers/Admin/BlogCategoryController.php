@@ -37,6 +37,7 @@ class BlogCategoryController extends Controller
 
         $category = new BlogCategory();
         $category->name = $request->name;
+        $category->parent_id = $request->parent_id;
         $category->slug = Str::slug($request->name);
         $category->save();
 
@@ -73,6 +74,7 @@ class BlogCategoryController extends Controller
 
         $category = BlogCategory::findOrFail($id);
         $category->name = $request->name;
+        $category->parent_id = $request->parent_id;
         $category->slug = Str::slug($request->name);
         $category->save();
 

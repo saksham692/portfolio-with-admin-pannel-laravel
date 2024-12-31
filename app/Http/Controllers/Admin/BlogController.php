@@ -34,11 +34,12 @@ class BlogController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'category_id' => 'nullable',
+            'slug' => 'required|string|max:255',
+            'categories' => 'nullable',
             'description' => 'nullable|string|max:255',
             'content' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
-            'meta_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'meta_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',
             'published' => 'required|boolean',
             'published_at' => 'nullable|date',
             'allow_comments' => 'nullable|boolean',
@@ -53,7 +54,9 @@ class BlogController extends Controller
         }
         $validated['published_at'] = $request->published ? now()->format('Y-m-d') : Null;
 
-        Blog::create($validated);
+        $blog = Blog::create($validated);
+
+        $blog->categories()->sync($request->categories);
 
         toastr('Created Successfully!', 'success');
 
@@ -86,8 +89,9 @@ class BlogController extends Controller
         $blog = Blog::findOrFail($id);
 
         $validated = $request->validate([
-            'category_id' => 'nullable',
             'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255',
+            'categories' => 'nullable',
             'description' => 'nullable|string|max:255',
             'content' => 'nullable|string',
             'meta_keywords' => 'nullable|string',
@@ -110,11 +114,13 @@ class BlogController extends Controller
             }
         }
         $validated['published_at'] = $request->published ? ($blog->published_at ? $blog->published_at : now()->format('Y-m-d')) : Null;
-        if (strcmp($blog->title, $validated['title']) == 0) {
-            $validated['slug'] = '';
-        }
+//        if (strcmp($blog->title, $validated['title']) == 0) {
+//            $validated['slug'] = '';
+//        }
         // Update the blog
         $blog->update($validated);
+
+        $blog->categories()->sync($request->categories);
 
         toastr('Updated Successfully!', 'success');
 

@@ -1,4 +1,5 @@
-<section class="hero-wrap js-fullheight">
+<section class="hero-wrap js-fullheight overflow-hidden">
+{{--    <img src="{{ asset($hero->image) }}" alt="" class="hero-section-background">--}}
     <div class="overlay"></div>
     <div class="container">
         <div class="row no-gutters slider-text js-fullheight justify-content-center align-items-center">
@@ -16,11 +17,11 @@
             </div>
         </div>
     </div>
-    <div class="mouse">
-        <a href="#" class="mouse-icon">
-            <div class="mouse-wheel"><span class="ion-ios-arrow-round-down"></span></div>
-        </a>
-    </div>
+{{--    <div class="mouse">--}}
+{{--        <a href="#" class="mouse-icon">--}}
+{{--            <div class="mouse-wheel"><span class="ion-ios-arrow-round-down"></span></div>--}}
+{{--        </a>--}}
+{{--    </div>--}}
 </section>
 
 <!-- Header-Area-End -->

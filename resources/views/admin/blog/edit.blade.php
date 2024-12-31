@@ -42,15 +42,28 @@
                             </div>
                         </div>
 
+                        <!-- Slug -->
+                        <div class="form-group row mb-4">
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Slug</label>
+                            <div class="col-sm-12 col-md-7">
+                                <input type="text" name="slug" class="form-control" value="{{ $blog->slug }}"
+                                       required>
+                            </div>
+                        </div>
+
                         <!-- Category -->
                         <div class="form-group row mb-4">
-                            <label
-                                class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Category</label>
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Categories</label>
                             <div class="col-sm-12 col-md-7">
-                                <select class="form-control selectric" name="category_id" required>
+                                <select class="form-control selectric" name="categories[]" multiple required>
                                     <option value="">Select</option>
                                     @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}" {{ $blog->category && $blog->category->id == $category->id ? 'selected' : ''}}>{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}"
+                                                @if($blog->categories->contains('id', $category->id))
+                                                selected
+                                            @endif>
+                                            {{ $category->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -126,7 +139,7 @@
 @endsection
 
 @push('scripts')
-  <script>
+    <script>
     $(document).ready(function(){
         $('#image-preview').css({
             'background-image': 'url("{{asset($blog->meta_image)}}")',

@@ -42,12 +42,20 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group row mb-4">
+                                    <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Slug</label>
+                                    <div class="col-sm-12 col-md-7">
+                                        <input type="text" name="slug" class="form-control" value="{{ old('slug') }}"
+                                               required>
+                                    </div>
+                                </div>
+
                                 <!-- Category -->
                                 <div class="form-group row mb-4">
                                     <label
                                         class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Category</label>
                                     <div class="col-sm-12 col-md-7">
-                                        <select class="form-control selectric" name="category_id" required>
+                                        <select class="form-control selectric" name="categories[]" multiple required>
                                             <option value="">Select</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -132,6 +140,16 @@
                 'background-size': 'cover',
                 'background-position': 'center center'
             })
+        });
+
+        $(document).on('change keyup', 'input[name="title"]', function () {
+            var title = $(this).val();
+            var slug = title
+                .toLowerCase()
+                .replace(/[^a-z0-9\s]/g, '')  // Remove special characters
+                .replace(/\s+/g, '-')        // Replace spaces with hyphens
+                .trim();                     // Trim leading/trailing spaces
+            $('input[name="slug"]').val(slug);
         });
     </script>
 @endpush

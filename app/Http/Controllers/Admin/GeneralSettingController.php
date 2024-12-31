@@ -57,7 +57,7 @@ class GeneralSettingController extends Controller
         $request->validate([
             'logo' => ['nullable', 'max:5000', 'image'],
             'footer_logo' => ['nullable', 'max:5000', 'image'],
-            'favicon' => ['nullable', 'max:5000', 'image'],
+            'favicon' => ['nullable'],
         ]);
 
         $setting = GeneralSetting::first();

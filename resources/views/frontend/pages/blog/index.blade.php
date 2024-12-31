@@ -5,8 +5,8 @@
         <div class="container">
             <div class="row clearfix">
                 <div class="col-lg-8 col-md-12 left-box">
-                    @if ($searchedCategory)
-                        <h2 class="text-center mb-4">Result For Category "{{ $searchedCategory->name }}"</h2>
+                    @if ($parentCategory)
+                        <h2 class="text-center mb-4">Result For Category "{{ $parentCategory->name }}"</h2>
                     @endif
                     @if ($search)
                         @if ($blogs->isEmpty())
@@ -57,7 +57,7 @@
                         <h3 class="heading-sidebar">Categories</h3>
                         <ul class="categories">
                             @foreach($categories as $viewCategory)
-                                <li><a href="{{ route('frontend.blogs.index', $viewCategory->slug) }}">{{ $viewCategory->name }} <span>({{ count($viewCategory->posts) }})</span></a>
+                                <li><a href="{{ route('frontend.blogs.index', $viewCategory->slug) }}">{{ $viewCategory->name }} <span>({{ $viewCategory->getTotalBlogs() }})</span></a>
                                 </li>
                             @endforeach
                         </ul>

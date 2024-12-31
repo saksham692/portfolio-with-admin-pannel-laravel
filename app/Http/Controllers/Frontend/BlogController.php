@@ -26,12 +26,19 @@ use App\Models\PortfolioSectionSetting;
 
 class BlogController extends Controller
 {
-    public function index(Request $request, $category = null)
+    public function index(Request $request, $categorySlug = null)
     {
-        // Retrieve the search query or set it to null if not provided
         $search = $request->input('search') ?: null;
 
-        // Fetch blogs with optional search filter
+        // Fetch the parent category
+        $parentCategory = $categorySlug ? BlogCategory::where('slug', $categorySlug)->first() : null;
+
+        // Get all categories (parent + children)
+        $categoryIds = $parentCategory
+            ? $parentCategory->getAllChildCategories()->pluck('id')->prepend($parentCategory->id)
+            : [];
+
+        // Fetch blogs with optional search and category filters
         $blogs = Blog::when($search, function ($query, $search) {
             return $query->where(function ($query) use ($search) {
                 $query->where('title', 'LIKE', "%{$search}%")
@@ -39,25 +46,20 @@ class BlogController extends Controller
                     ->orWhere('description', 'LIKE', "%{$search}%");
             });
         })
-            ->when($category, function ($query, $category) {
-                return $query->whereHas('category', function ($query) use ($category) {
-                    $query->where('slug', $category);
+            ->when($categorySlug, function ($query) use ($categoryIds) {
+                return $query->whereHas('categories', function ($query) use ($categoryIds) {
+                    $query->whereIn('blog_categories.id', $categoryIds); // Specify the table name
                 });
             })
             ->latest()
             ->paginate(5);
 
-        // Other data for the page
-        if ($category != null) {
-            $searchedCategory = BlogCategory::where('slug', $category)->first();
-        } else {
-            $searchedCategory = null;
-        }
+        // Fetch related data for the page
         $categories = BlogCategory::latest()->take(6)->get();
         $latestBlogs = Blog::where('published', 1)->latest()->take(3)->get();
         $oldBlogs = Blog::where('published', 1)->oldest()->take(3)->get();
 
-        return view('frontend.pages.blog.index', compact('blogs', 'categories', 'latestBlogs', 'oldBlogs', 'search', 'searchedCategory'));
+        return view('frontend.pages.blog.index', compact('blogs', 'categories', 'latestBlogs', 'oldBlogs', 'search', 'parentCategory'));
     }
 
     public function show($slug)

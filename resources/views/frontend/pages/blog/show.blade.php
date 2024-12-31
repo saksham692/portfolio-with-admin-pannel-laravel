@@ -27,8 +27,8 @@
     <meta name="twitter:description" content="{{ $blog->description }}">
     <meta name="twitter:image" content="{{ asset($blog->meta_image) }}">
 
-{{--    <!-- Theme Color -->--}}
-{{--    <meta name="theme-color" content="#007BFF">--}}
+    {{--    <!-- Theme Color -->--}}
+    {{--    <meta name="theme-color" content="#007BFF">--}}
 
     <!-- Article Tags -->
     <meta property="article:published_time" content="{{ $blog->published_at }}">
@@ -47,8 +47,8 @@
       "@type": "Person",
       "name": "{{ $generalSetting->author }}"
     },
-    "datePublished": "{{ $blog->published_at }}",
-    "dateModified": "{{ $blog->published_at }}",
+    "datePublished": "{{ \Carbon\Carbon::parse($blog->published_at)->toIso8601String() }}",
+    "dateModified": "{{ \Carbon\Carbon::parse($blog->updated_at)->toIso8601String() }}",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "{{ route('show.blog', $blog->slug) }}"
@@ -64,6 +64,8 @@
     }
   }
 
+
+
     </script>
 @endsection
 @section('content')
@@ -71,8 +73,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 ftco-animate">
-                    <h2 class="mb-3">{{ $blog->title }}</h2>
-                    {!! $blog->content !!}
+                    <main class="text-wrap blog-content">
+                        <h1 class="mb-3">{{ $blog->title }}</h1>
+                        {!! $blog->content !!}
+                    </main>
                     <div class="about-author d-flex p-4 bg-light flex-sm-column">
                         <div class="desc">
                             <h3>By {{ $generalSetting->author }}</h3>
@@ -93,7 +97,8 @@
                         <h3 class="heading-sidebar">Categories</h3>
                         <ul class="categories">
                             @foreach($categories as $category)
-                                <li><a href="{{ route('frontend.blogs.index', $category->slug) }}">{{ $category->name }} <span>({{ count($category->posts) }})</span></a>
+                                <li><a href="{{ route('frontend.blogs.index', $category->slug) }}">{{ $category->name }}
+                                        <span>({{ $category->getTotalBlogs() }})</span></a>
                                 </li>
                             @endforeach
                         </ul>
@@ -113,8 +118,9 @@
                                         <div><a href="#"><span
                                                     class="icon-calendar"></span> {{ date('M d, Y', strtotime($latestBlog->published_at)) }}
                                             </a></div>
-                                        <div><a href="#"><span class="icon-person"></span> {{ $generalSetting->author }}</a></div>
-{{--                                        <div><a href="#"><span class="icon-chat"></span> 19</a></div>--}}
+                                        <div><a href="#"><span class="icon-person"></span> {{ $generalSetting->author }}
+                                            </a></div>
+                                        {{--                                        <div><a href="#"><span class="icon-chat"></span> 19</a></div>--}}
                                     </div>
                                 </div>
                             </div>
@@ -134,8 +140,9 @@
                                         <div><a href="#"><span
                                                     class="icon-calendar"></span> {{ date('M d, Y', strtotime($previousPost->published_at)) }}
                                             </a></div>
-                                        <div><a href="#"><span class="icon-person"></span> {{ $generalSetting->author }}</a></div>
-{{--                                        <div><a href="#"><span class="icon-chat"></span> 19</a></div>--}}
+                                        <div><a href="#"><span class="icon-person"></span> {{ $generalSetting->author }}
+                                            </a></div>
+                                        {{--                                        <div><a href="#"><span class="icon-chat"></span> 19</a></div>--}}
                                     </div>
                                 </div>
                             </div>
@@ -155,8 +162,9 @@
                                         <div><a href="#"><span
                                                     class="icon-calendar"></span> {{ date('M d, Y', strtotime($nextPost->published_at)) }}
                                             </a></div>
-                                        <div><a href="#"><span class="icon-person"></span> {{ $generalSetting->author }}</a></div>
-{{--                                        <div><a href="#"><span class="icon-chat"></span> 19</a></div>--}}
+                                        <div><a href="#"><span class="icon-person"></span> {{ $generalSetting->author }}
+                                            </a></div>
+                                        {{--                                        <div><a href="#"><span class="icon-chat"></span> 19</a></div>--}}
                                     </div>
                                 </div>
                             </div>

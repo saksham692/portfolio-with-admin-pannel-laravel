@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
+//use Spatie\Sluggable\HasSlug;
+//use Spatie\Sluggable\SlugOptions;
 
 class Blog extends Model
 {
-    use HasFactory, HasSlug;
+    use HasFactory;
 
     protected $fillable = [
         'category_id', 'parent_id', 'title', 'slug',
@@ -18,16 +18,16 @@ class Blog extends Model
         'allow_comments',
     ];
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(BlogCategory::class, 'category_id', 'id');
+        return $this->belongsToMany(BlogCategory::class, 'blog_blog_category');
     }
 
-    public function getSlugOptions(): SlugOptions
-    {
-        // TODO: Implement getSlugOptions() method.
-        return SlugOptions::create()
-            ->generateSlugsFrom('title') // Field to generate the slug from
-            ->saveSlugsTo('slug');
-    }
+//    public function getSlugOptions(): SlugOptions
+//    {
+//        // TODO: Implement getSlugOptions() method.
+//        return SlugOptions::create()
+//            ->generateSlugsFrom('title') // Field to generate the slug from
+//            ->saveSlugsTo('slug');
+//    }
 }

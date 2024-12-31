@@ -28,6 +28,19 @@
                         <input type="text" name="name" class="form-control" value="{{ $category->name }}">
                       </div>
                     </div>
+                    <div class="form-group row mb-4">
+                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Parent Category</label>
+                        <div class="col-sm-12 col-md-7">
+                            <select class="form-control selectric" name="parent_id" required>
+                                <option value="">Select</option>
+                                @foreach (\App\Models\BlogCategory::all() as $selectCategory)
+                                    <option value="{{ $selectCategory->id }}" {{ $selectCategory->id == $category->parent_id ? 'selected' : '' }}>
+                                        {{ $selectCategory->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
                     <div class="form-group row mb-4">
                       <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>

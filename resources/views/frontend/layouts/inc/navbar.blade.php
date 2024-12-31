@@ -2,7 +2,8 @@
     <div class="container">
         <a class="" href="{{ route('home') }}">
             <span class="navbar-logo py-2">
-                <img src="{{ optional($generalSetting)->logo }}" alt=""/>
+                <img src="{{ optional($generalSetting)->logo }}" class="logo-light" alt=""/>
+                <img src="{{ asset('frontend/assets/images/logo-dark.png') }}" class="logo-dark" alt=""/>
             </span>
         </a>
         <button class="navbar-toggler js-fh5co-nav-toggle fh5co-nav-toggle" type="button" data-toggle="collapse"
